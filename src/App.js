@@ -76,7 +76,7 @@ const Back2 = () => {
 
   return (
     <div className='w3-content w3-panel'>
-      <h1 className='w3-opacity w3-center'>CLIENT</h1>
+      <h1 className='w3-opacity w3-center'>Fake API</h1>
         {
           shUsers &&
           users &&
