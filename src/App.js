@@ -9,7 +9,7 @@ function App() {
 
   const [users, setUsers] = useState(null)
   const [posts, setPosts] = useState(null)
-  const [error, setError] = useState('')
+  const [shUsers, setShUsers] = useState(true)
 
   useEffect(()=>{
     fetch('https://jsonplaceholder.typicode.com/users')
@@ -21,7 +21,7 @@ function App() {
         setUsers(data);
       })
       .catch(err=>{
-        setError(err.message);
+        console.error(err.message);
       })
   },[])
 
@@ -35,20 +35,24 @@ function App() {
         return res.json()
       })
       .then(data=>{
-        setUsers(null);
+        setShUsers(false);
         setPosts(data);
       })
       .catch(err=>{
-        setError(err.message);
+        console.error(err.message);
       })
   }
 
-
+const Back = () => {
+  setPosts(null)
+  setShUsers(true)
+}
 
   return (
     <div className='w3-content w3-panel'>
       <h1 className='w3-opacity w3-center'>CLIENT</h1>
         {
+          shUsers &&
           users &&
           users.map((singleUser)=>
           <User 
@@ -62,14 +66,26 @@ function App() {
           />)
         }
 
-{
+
+        {
           posts &&
-          posts.map((post)=>
-          <Post 
-          key={post['id']}
-          title={post['title']}
-          body={post['body']}
-          />)
+          <> 
+            
+            {
+              posts.map((post)=>
+              <Post 
+              key={post['id']}
+              title={post['title']}
+              body={post['body']}
+              />)
+            }
+
+            <div className='w3-center w3-padding'>
+            <button className='w3-button w3-border w3-red w3-hover-green w3-round w3-center' onClick={Back}>Back</button>
+            </div>
+
+          </>
+          
         }
     </div>
   );
